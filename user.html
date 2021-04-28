@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+
+    <style>
+        .lessons {
+            border: 2px solid;
+            border-color: skyblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="store" class="container">
+        <h3 class="text-center mt-5">{{name}}</h3>
+        <a href="lesson.html" style="color :white; text-decoration: none;"><button class="btn btn-primary">See
+                lessons</button></a>
+
+        <div>
+            <img class="d-block mx-auto" style="width: 15%;" v-for="users in user" v-bind:src="users.image">
+        </div>
+
+        <div class="card shadow-sm p-3 mb-5" style="background-color: #f8f9fa; border: 0px;" v-for="users in user">
+            <p><b>User Name :</b> {{users.name}}</p>
+            <p><b>User Email :</b> {{users.email}}</p>
+            <p><b>User Password :</b> {{users.password}}</p>
+        </div>
+    </div>
+    <script>
+        let store = new Vue({
+            el: '#store',
+            data: {
+                name: "User's Profile",
+                user: [],
+            },
+            created: function () {
+                var fetchreq = 'http://localhost:2000/user';
+                console.log('requesting data from server ...')
+                fetch(fetchreq).then(
+                    function (response) {
+                        response.json().then(
+                            function (json) {
+                                // save the returned JSON object to
+                                // 'product' data property
+                                store.user = json;
+                                console.log(json);
+                            });
+                    }
+                )
+            }
+
+
+        })
+    </script>
+</body>
+
+</html>

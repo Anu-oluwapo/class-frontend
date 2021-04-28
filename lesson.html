@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+
+    <style>
+        .lessons {
+            border: 0px solid;
+            /* border-color: rgb(135, 206, 235); */
+            border-radius: 10px;
+            box-shadow: 0 12px 16px 0 rgba(173, 232, 255, 0.22);
+            padding: 5%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="store" class="container">
+        <h3 class="text-center mt-5">{{name}}</h3>
+        <a href="user.html" style="color :white; text-decoration: none;"><button class="btn btn-primary">See
+                User</button></a>
+        <div class="row">
+            <div class="col-md-4  mt-4 " v-for="course in product">
+                <div class="lessons pl-3">
+                    <h3>Lesson</h3>
+                    <p>Topic : {{course.topic}}</p>
+                    <p>Location : {{course.location}}</p>
+                    <p>Price : {{course.price}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let store = new Vue({
+            el: '#store',
+            data: {
+                name: "Lesson Json Data With Express Server",
+                product: [],
+            },
+            created: function () {
+                var fetchreq = 'http://localhost:2000/lesson';
+                console.log('requesting data from server ...')
+                fetch(fetchreq).then(
+                    function (response) {
+                        response.json().then(
+                            function (json) {
+                                // save the returned JSON object to
+                                // 'product' data property
+                                store.product = json;
+                                console.log(json);
+                            });
+                    }
+                )
+            }
+
+
+        })
+    </script>
+</body>
+
+</html>
